@@ -16,8 +16,10 @@
   <style>
      /* map position & style */
     body { margin:0; padding:0; }
-    #map { position: absolute; top:0; bottom:0; right:0; left:0; }
-
+    #map { position: absolute; top:0; bottom:0; right:0; left:0; 
+	width: 800px;
+	height: 100%;
+	}
       /* popup style */
 .popup {
   display: flex;
@@ -69,9 +71,7 @@
 	  
   // initial map center and zoom level
   var map = L.map('map', {
-    center: (0, 0), // EDIT lat, long to re-center map
-	width: 900,
-	height: 100%,
+    center: [0, 0], // EDIT lat, long to re-center map
     zoom: 2,  // from 1 to 18 
 	minZoom: 2,
     scrollWheelZoom: true,
