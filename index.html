@@ -70,13 +70,20 @@
 
 	  
   // initial map center and zoom level
-  var map = L.map('map', {
-    center: [0, 0], // EDIT lat, long to re-center map
-    zoom: 2,  // from 1 to 18 
-	minZoom: 2,
-    scrollWheelZoom: true,
-    tap: false
-  });
+var map = L.map('map', {
+  center: [0, 0],
+  zoom: 2,
+  minZoom: 2,
+  scrollWheelZoom: true,
+  tap: false,
+
+  // Restrict vertical panning, but allow endless horizontal panning
+  maxBounds: [
+    [-85, -Infinity],  // Southwest corner (lat, lng)
+    [85,   Infinity]   // Northeast corner (lat, lng)
+  ],
+  maxBoundsViscosity: 1.0  // 1.0 = hard stop, 0.0 = no resistance
+});
 
   // display Esri basemap tiles 
  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
