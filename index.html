@@ -31,7 +31,7 @@
   // initial map center and zoom level
   var map = L.map('map', {
     center: [0, 0], // EDIT lat, long to re-center map
-    zoom: 2,  // from 1 to 18 
+    zoom: 3,  // from 1 to 18 
     scrollWheelZoom: true,
     tap: false
   });
@@ -59,7 +59,7 @@
     icon: L.icon({
     iconUrl: 'flagcentered.png',
     iconShadow: 'flagshadow.png',
-    iconSize: [30, 30],
+    iconSize: [35, 35],
     popupAnchor: [0, 0]
   })
 }).bindPopup(row.Name);
