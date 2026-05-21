@@ -69,20 +69,22 @@
   <!-- Javascript (.js) code to create the map -->
   <script>
 
+var isMobile = window.innerWidth < 600;
 	  
   // initial map center and zoom level
 var map = L.map('map', {
   center: [0, 0],
-  zoom: 1,
+  zoom: isMobile ? 1 : 2,
+  minZoom: isMobile ? 1 : 2,
   scrollWheelZoom: true,
-  tap: false,
+  tap: isMobile ? true : false,
 
   // Restrict vertical panning, but allow endless horizontal panning
   maxBounds: [
     [-85, -Infinity],  // Southwest corner (lat, lng)
     [85,   Infinity]   // Northeast corner (lat, lng)
   ],
-  maxBoundsViscosity: 1.0  // 1.0 = hard stop, 0.0 = no resistance
+  maxBoundsViscosity: isMobile ? 0.0 : 1.0  // 1.0 = hard stop, 0.0 = no resistance
 });
 
   // display Esri basemap tiles 
@@ -109,20 +111,24 @@ var map = L.map('map', {
     icon: L.icon({
     iconUrl: 'flagcentered.png',
     shadowUrl: 'flagshadow.png',
-    iconSize: [35, 35],
+    iconSize: isMobile ? [45,45] : [35, 35],
     shadowSize: [0, 0],
     popupAnchor: [0, 0]
   })
 }).bindPopup(`
       <div class="popup">
-    <img src="${row.Media}"/>
+	${isMobile ? '' : `<img src="${row.Media}"/>`}
     <div class="info">
       <div class="title">${row.Lang}</div>
       <div class="description">${row.Description}</div>
       <div class="link"><a href="${row.link}" target="_blank">Listen here!</a></div>
     </div>
   </div>
-`, { maxWidth: 200})
+`, { maxWidth: isMobile ? 200 : 350
+   autoPan: true,
+  autoPanPaddingTopLeft: L.point(10, 10),
+  autoPanPaddingBottomRight: L.point(10, 40)
+	})
 
 marker.addTo(map);
     }
