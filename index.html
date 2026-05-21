@@ -73,8 +73,7 @@
   // initial map center and zoom level
 var map = L.map('map', {
   center: [0, 0],
-  zoom: 2,
-  minZoom: 2,
+  zoom: 1,
   scrollWheelZoom: true,
   tap: false,
 
@@ -123,7 +122,7 @@ var map = L.map('map', {
       <div class="link"><a href="${row.link}" target="_blank">Listen here!</a></div>
     </div>
   </div>
-`, { maxWidth: 350})
+`, { maxWidth: 200})
 
 marker.addTo(map);
     }
