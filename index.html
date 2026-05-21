@@ -57,6 +57,24 @@
   .link a:hover {
     text-decoration: underline;
   }
+
+	  /* mobile formatting */
+@media (max-width: 600px) {
+  .popup {
+    gap: 6px;
+  }
+  .popup img {
+    width: 70px;
+    height: 52px;
+  }
+  .title { font-size: 11px; }
+  .description { font-size: 10px; }
+  .link a { font-size: 10px; }
+  .leaflet-popup-content {
+    margin: 6px 8px;
+    width: auto !important;
+  }
+}
   </style>
 
 </head>
@@ -74,7 +92,7 @@ var isMobile = window.innerWidth < 600;
 var map = L.map('map', {
   center: [0, 0],
   zoom: isMobile ? 1 : 2,
-  minZoom: isMobile ? 1 : 1,
+  minZoom: isMobile ? 1 : 1.5,
   scrollWheelZoom: true,
   tap: isMobile ? true : false,
 
@@ -123,7 +141,7 @@ var map = L.map('map', {
       <div class="link"><a href="${row.link}" target="_blank">Listen here!</a></div>
     </div>
   </div>
-`, { maxWidth: isMobile ? 200 : 350,
+`, { maxWidth: isMobile ? 150 : 350,
    autoPan: true,
   autoPanPaddingTopLeft: L.point(10, 10),
   autoPanPaddingBottomRight: L.point(10, 40)
