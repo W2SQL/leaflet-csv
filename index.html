@@ -57,6 +57,11 @@
   .link a:hover {
     text-decoration: underline;
   }
+
+	  /* mobile formatting */
+@media (max-width: 600px) {
+  .popup { gap: 6px; }
+  .leaflet-popup-content { margin: 6px 8px; }
 }
   </style>
 
@@ -69,26 +74,28 @@
   <!-- Javascript (.js) code to create the map -->
   <script>
 
+var isMobile = window.innerWidth < 600;
 	  
   // initial map center and zoom level
 var map = L.map('map', {
   center: [0, 0],
-  zoom: 2,
-  minZoom: 2,
+  zoom: isMobile ? 1 : 2,
+  minZoom: isMobile ? 1 : 1.5,
+  worldCopyJump: true, //repeats points on infinite horizontal scroll
   scrollWheelZoom: true,
-  tap: false,
+  tap: isMobile ? true : false,
 
   // Restrict vertical panning, but allow endless horizontal panning
   maxBounds: [
     [-85, -Infinity],  // Southwest corner (lat, lng)
     [85,   Infinity]   // Northeast corner (lat, lng)
   ],
-  maxBoundsViscosity: 1.0  // 1.0 = hard stop, 0.0 = no resistance
+  maxBoundsViscosity: isMobile ? 0.5 : 1.0  // 1.0 = hard stop, 0.0 = no resistance
 });
 
   // display Esri basemap tiles 
  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
-	attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS | View <a href="https://github.com/jvlna/mixtape" target="_blank">code by Annalise on GitHub</a>',
+	attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS | View <a href="https://github.com/jvlna/mixtape" target="_blank">code on GitHub</a>',
 	maxZoom: 13
 }).addTo(map);
 
@@ -110,20 +117,24 @@ var map = L.map('map', {
     icon: L.icon({
     iconUrl: 'flagcentered.png',
     shadowUrl: 'flagshadow.png',
-    iconSize: [35, 35],
+    iconSize: [45,45],
     shadowSize: [0, 0],
     popupAnchor: [0, 0]
   })
 }).bindPopup(`
       <div class="popup">
-    <img src="${row.Media}"/>
+	${isMobile ? '' : `<img src="${row.Media}"/>`}
     <div class="info">
       <div class="title">${row.Lang}</div>
       <div class="description">${row.Description}</div>
       <div class="link"><a href="${row.link}" target="_blank">Listen here!</a></div>
     </div>
   </div>
-`, { maxWidth: 350})
+`, { maxWidth: isMobile ? 150 : 350,
+   autoPan: true,
+  autoPanPaddingTopLeft: L.point(10, 10),
+  autoPanPaddingBottomRight: L.point(10, 40)
+	})
 
 marker.addTo(map);
     }
